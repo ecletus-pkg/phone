@@ -17,7 +17,7 @@ func (p *Plugin) OnRegister() {
 	p.AdminNames.OnInitResources(p, func(e *adminplugin.AdminEvent) {
 		e.Admin.AddResource(&QorPhone{}, &admin.Config{Setup: PrepareResource})
 	})
-	db.DisNames(p).DBOnMigrateGorm(func(e *db.GormDBEvent) error {
+	db.Events(p).DBOnMigrateGorm(func(e *db.GormDBEvent) error {
 		return e.DB.AutoMigrate(&QorPhone{}).Error
 	})
 }
