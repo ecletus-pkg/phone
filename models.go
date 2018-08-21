@@ -5,7 +5,7 @@ import (
 	"github.com/aghape/db/common/mixins"
 )
 
-type QorPhone struct {
+type Phone struct {
 	common.Model
 	mixins.CreationUpdationMixin
 	CountryCode string `gorm:"size:2"`
@@ -13,7 +13,7 @@ type QorPhone struct {
 	Note        string `gorm:"size:255"`
 }
 
-func (p *QorPhone) String() (s string) {
+func (p *Phone) String() (s string) {
 	if p.CountryCode != "" {
 		s += "+"
 		s += p.CountryCode

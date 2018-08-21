@@ -10,7 +10,7 @@ func AddSubResource(res *admin.Resource, value interface{}, fieldName ...string)
 		fieldName = []string{"Phones"}
 	}
 	return res.AddResource(&admin.SubConfig{FieldName: fieldName[0]}, value, &admin.Config{Setup: func(r *admin.Resource) {
-		r.SetI18nModel(&QorPhone{})
+		r.SetI18nModel(&Phone{})
 		PrepareResource(r)
 		res.SetMeta(&admin.Meta{Name: fieldName[0], Resource: r})
 	}})
@@ -25,5 +25,5 @@ func PrepareResource(res *admin.Resource) {
 }
 
 func GetResource(Admin *admin.Admin) *admin.Resource {
-	return Admin.GetResourceByID("QorPhone")
+	return Admin.GetResourceByID("Phone")
 }
