@@ -1,13 +1,11 @@
 package phone
 
 import (
-	"github.com/aghape/db/common"
-	"github.com/aghape/db/common/mixins"
+	"github.com/moisespsena-go/aorm"
 )
 
 type Phone struct {
-	common.Model
-	mixins.CreationUpdationMixin
+	aorm.AuditedModel
 	CountryCode string `gorm:"size:2"`
 	Phone       string `gorm:"size:255"`
 	Note        string `gorm:"size:255"`
