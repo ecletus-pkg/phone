@@ -1,0 +1,8 @@
+Phone:
+  label*:
+    p: Telefones
+    s: Telefone
+  attributes:
+    CountryCode: Código do País
+    Number: Número
+    Note: Nota

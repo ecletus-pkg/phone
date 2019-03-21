@@ -17,7 +17,7 @@ func (p *Plugin) OnRegister() {
 	admin_plugin.Events(p).InitResources(func(e *admin_plugin.AdminEvent) {
 		e.Admin.AddResource(&Phone{}, &admin.Config{Setup: PrepareResource, Invisible:true})
 	})
-	db.Events(p).DBOnMigrateGorm(func(e *db.GormDBEvent) error {
-		return e.DB.AutoMigrate(&Phone{}).Error
+	db.Events(p).DBOnMigrate(func(e *db.DBEvent) error {
+		return e.AutoMigrate(&Phone{}).Error
 	})
 }

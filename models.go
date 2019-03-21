@@ -7,7 +7,7 @@ import (
 type Phone struct {
 	aorm.AuditedModel
 	CountryCode string `gorm:"size:2"`
-	Phone       string `gorm:"size:255"`
+	Number      string `gorm:"size:255"`
 	Note        string `gorm:"size:255"`
 }
 
@@ -16,7 +16,7 @@ func (p *Phone) String() (s string) {
 		s += "+"
 		s += p.CountryCode
 	}
-	s += p.Phone
+	s += p.Number
 	if p.Note != "" {
 		s += " [" + p.Note + "]"
 	}
