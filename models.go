@@ -5,13 +5,17 @@ import (
 )
 
 type Phone struct {
-	aorm.AuditedModel
+	aorm.Model
+	PhoneAttrs
+}
+
+type PhoneAttrs struct {
 	CountryCode string `gorm:"size:2"`
 	Number      string `gorm:"size:255"`
 	Note        string `gorm:"size:255"`
 }
 
-func (p *Phone) String() (s string) {
+func (p *PhoneAttrs) String() (s string) {
 	if p.CountryCode != "" {
 		s += "+"
 		s += p.CountryCode

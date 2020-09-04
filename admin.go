@@ -4,22 +4,28 @@ import (
 	"github.com/ecletus/admin"
 )
 
-func AddSubResource(res *admin.Resource, value interface{}, fieldName ...string) *admin.Resource {
-	cfg := &admin.Config{Setup: func(r *admin.Resource) {
-		r.SetI18nModel(&Phone{})
-		PrepareResource(r)
-		res.SetMeta(&admin.Meta{Name: fieldName[0], Resource: r})
-	}}
-	if len(fieldName) == 0 || fieldName[0] == "" {
-		fieldName = []string{"Phones"}
-		res.Meta(&admin.Meta{
-			Name:  fieldName[0],
-			Label: GetResource(res.GetAdmin()).PluralLabelKey(),
-		})
-	} else {
-		cfg.LabelKey = res.ChildrenLabelKey(fieldName[0])
-	}
-	return res.AddResource(&admin.SubConfig{FieldName: fieldName[0]}, value, cfg)
+func AddSubResource(setup func(res *admin.Resource), res *admin.Resource, value interface{}, fieldName ...string) error {
+	return res.GetAdmin().OnResourcesAdded(func(e *admin.ResourceEvent) error {
+		cfg := &admin.Config{Setup: func(r *admin.Resource) {
+			r.SetI18nModel(&Phone{})
+			PrepareResource(r)
+			res.SetMeta(&admin.Meta{Name: fieldName[0], Resource: r})
+			if setup != nil {
+				setup(r)
+			}
+		}}
+		if len(fieldName) == 0 || fieldName[0] == "" {
+			fieldName = []string{"Phones"}
+			res.Meta(&admin.Meta{
+				Name:  fieldName[0],
+				Label: e.Resource.PluralLabelKey(),
+			})
+		} else {
+			cfg.LabelKey = res.ChildrenLabelKey(fieldName[0])
+		}
+		res.AddResource(&admin.SubConfig{FieldName: fieldName[0]}, value, cfg)
+		return nil
+	}, ResourceID)
 }
 
 func PrepareResource(res *admin.Resource) {
@@ -30,6 +36,4 @@ func PrepareResource(res *admin.Resource) {
 	res.IndexAttrs("CountryCode", "Number", "Note")
 }
 
-func GetResource(Admin *admin.Admin) *admin.Resource {
-	return Admin.GetResourceByID("Phone")
-}
+const ResourceID = "Phone"
